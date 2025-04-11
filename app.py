@@ -3,7 +3,8 @@ from flask_pymongo import PyMongo
 from models import create_offer_document, match_offers, hash_password, verify_password
 
 app = Flask(__name__)
-app.config["MONGO_URI"] = "mongodb://localhost:27017/skillswap"
+app.config["MONGO_URI"] = "mongodb+srv://Meghana:Meghana@2145@cluster0.yx56hg3.mongodb.net/?retryWrites=true&w=majority
+"
 app.secret_key = 'your_secret_key_here'  # change in production
 mongo = PyMongo(app)
 
