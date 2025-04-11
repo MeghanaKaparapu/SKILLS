@@ -16,19 +16,22 @@ def home():
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
-        username = request.form['username'].strip()
-        password = request.form['password']
-        existing_user = mongo.db.users.find_one({"username": username})
+        try :
+            username = request.form['username'].strip()
+            password = request.form['password']
+            existing_user = mongo.db.users.find_one({"username": username})
 
-        if existing_user:
-            flash("Username already exists.")
-            return redirect(url_for('signup'))
+            if existing_user:
+                flash("Username already exists.")
+                return redirect(url_for('signup'))
 
-        hashed_pw = hash_password(password)
-        mongo.db.users.insert_one({"username": username, "password": hashed_pw})
-        session['username'] = username
-        return redirect(url_for('index'))
-
+            hashed_pw = hash_password(password)
+            print(f"Hashed password: {hashed_pw}") 
+            mongo.db.users.insert_one({"username": username, "password": hashed_pw})
+            session['username'] = username
+            return redirect(url_for('index'))
+        except Exception as e:
+            return f"<h2>Signup Error:</h2><pre>{e}</pre>"
     return render_template('signup.html')
 
 @app.route('/login', methods=['GET', 'POST'])
